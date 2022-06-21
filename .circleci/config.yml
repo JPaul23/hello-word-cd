@@ -4,9 +4,9 @@ orbs:
   # Choose either one of the orbs below
   # welcome: circleci/welcome-orb@0.4.1
   # aws-cli: circleci/aws-cli@2.0.3
-  aws-cli: circleci/aws-cli@2.0.3
+  # aws-cli: circleci/aws-cli@2.0.3
 
-  commands:
+commands:
   # Exercise: Reusable Job Code
   print_pipeline_id:
     parameters:
