@@ -35,13 +35,27 @@ jobs:
       - checkout
       - run: echo "hello world"
 
+  create_infrastructure:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Create Cloudformation stack
+          command: |
+            aws cloudformation deploy \
+              --template-file template.yml \
+              --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+              --region us-east-1
+      - destroy_environment
+
   configure_infrastructure:
     docker:
-      - image:python:3.7-alpine3.11
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - add_ssh_keys:
-        fingerprints: [24:3b:54:f5:83:68:bf:ab:a7:6a:b9:dd:a1:6a:55:83]
+          fingerprints: [24:3b:54:f5:83:68:bf:ab:a7:6a:b9:dd:a1:6a:55:83]
       - run:
           name: Install dependencies
           command: |
@@ -58,4 +72,5 @@ workflows:
   myWorkflow:
     jobs:
       - print_hello
-      - create_infrastructure
+      #- create_infrastructure
+      - configure_infrastructure
